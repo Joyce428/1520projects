@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Chat room!</title>
+		<script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+	</head>
+	<h1>Chatroom System</h1>
+	<div class="navigation">
+	{% if 'user_id' in session %}
+	  <a href="{{ url_for('logout') }}">log out [{{ session['user_id'] }}]</a>
+	  <br>
+	  <br>
+	{% else %}
+	  <a href="{{ url_for('register') }}">Register</a> |
+	  <a href="{{ url_for('login') }}">Log in</a>
+	{% endif %}
+	</div>
+	<body>
+		<p>History Messages:</p>
+		<ul id="msgList">
+			{% for message in messages %}
+			  <li>  
+				<small> {{ message.author_id|getname }} ---</small>
+				{{ message.text }}
+				<small>&mdash; {{ message.pub_date|datetimeformat }}</small>
+				<small> --- </small>
+			{% else %}
+			  <li><em>There's no message so far.</em>
+			{% endfor %}
+		</ul>
+
+
+		<div class="msgbox">
+			<h3>Send some message: </h3>
+			<form name="theForm">
+				<input type="text" id="a" name="a" value="" />
+				<input type="button" id="theButton" value="Send" />
+			</form>
+		</div>
+		<br/>
+		<strong><a href="{{ url_for('leave_room') }}">Leave This Room (ID: {{ g.user.room_id }} )</a></strong>
+	</body>
+</html>
+
+

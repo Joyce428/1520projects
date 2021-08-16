@@ -1,0 +1,64 @@
+<html>
+<head>
+	<title>Project4: Budget Application!</title>
+
+	
+	<script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+	<h3>Category list:</h3>
+	<ul id="theList">
+		{% for cat in cat_list %}
+		<li>  
+		<!--form name="theForm"-->
+			{% if cat_list[cat]["remaining"] >= 0 %}	
+		  		{{ cat_list[cat]["name"] }} | initial budget: ${{ cat_list[cat]["limit"] }}  | budget remaining: ${{ cat_list[cat]["remaining"] }} | 
+			{% else %}
+				{{ cat_list[cat]["name"] }} | initial budget: ${{ cat_list[cat]["limit"] }}  | you are ${{ 0-cat_list[cat]["remaining"] }} over budget |
+			{% endif %}
+			<button class="deleteButton" id="{{cat}}" onclick="makeDelete('{{cat}}')">Delete</button>
+		<!--/form-->
+	  	{% else %}
+			<li><em>There's no category so far.</em>
+		{% endfor %}
+	</ul>
+
+
+	<h3>Purchase history:</h3>
+	<ul id="purList">
+		{% for pur in pur_list %}
+		<li>  
+		  Date: {{ pur_list[pur]["date"] }} | Category: {{ pur_list[pur]["category"] }} | Amount: ${{ pur_list[pur]["amount"] }}
+	
+	  	{% else %}
+		<li><em>There's no purchase so far.</em>
+		{% endfor %}
+	</ul>
+
+	<br/><br/>
+	<h3>Add a new category:</h3>
+	<form>
+		<!--input type="text" id="newDo" name="" value="" /-->
+		<label for="name">Category Name</label>
+		<input type="text" id="a" name="name" value="" /><br/>
+		<label for="name">Category Budget limit</label>
+		<input type="text" id="b" name="limit" value="" /><br/>
+		<!--input type="text" id="c" name="c" value="" /-->
+		<input type="button" id="theButton" value="Add a category" />
+	</form>
+
+
+	<h3>Make a purchase:</h3>
+	<form>
+		<!--input type="text" id="newDo" name="" value="" /-->
+		<label for="name">Amount (in dollars)</label>
+		<input type="text" id="amount" name="amount" value="" /><br/>
+		<label for="name">Purchase date</label>
+		<input type="text" id="date" name="date" value="" /><br/>
+		<label for="name">Category:</label>
+		<input type="text" id="category" name="category" value="" /><br/>
+		<!--input type="text" id="c" name="c" value="" /-->
+		<input type="button" id="purButton" value="Make a purchase" />
+	</form>
+</body>
+</html>

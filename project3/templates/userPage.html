@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="{{ url_for('static', filename='user.js') }}"></script>
+</head>
+	<h1>Chatroom System</h1>
+	<div class="navigation">
+	{% if 'user_id' in session %}
+	<a href="{{ url_for('logout') }}">log out [{{ session['user_id'] }}]</a>
+	<br>
+	<br>
+	{% else %}
+	<a href="{{ url_for('register') }}">Register</a> |
+	<a href="{{ url_for('login') }}">Log in</a>
+	{% endif %}
+	</div>
+	<body>
+		{% if error %}
+			<p>{{ error }}</p>
+			<p>Hello helo hihi</p>
+		{% endif %}
+		{% if 'user_id' in session %}
+
+		<form name="theForm">
+			<input type="button" id="createButton" value="Create a Chat Room" />
+		</form>
+
+
+		<br>
+		<p>ChatRooms available to join:</p>
+				<ul class="myev" id='availRList'>
+					<li>Room ID |Creator | Action</li>
+					{% for room in available_rooms %}
+						<li><!--p-->
+						<form action="{{ url_for('join_room',rid=room.room_id) }}" method="post">
+							<small> {{ room.room_id }} ---</small>
+							<strong>{{ room.creator_id|getname }}</strong>
+							<small> --- </small>
+							<button name="joinBtn" type="submit">Join the room</button>
+						</form>
+					{% else %}
+						<li><em>There is no available chat room so far.</em>
+					{% endfor %}
+				</ul>
+		<br>
+
+		<p>ChatRooms I created:</p>
+				<ul class="myev" id="myRList" >
+					<li>Room ID |  Action</li>
+					{% for room in my_rooms %}
+						<li><!--p-->
+						<form action="{{ url_for('delete_room',rid=room.room_id) }}" method="post">
+							<small>  ---  {{ room.room_id }} </small>
+							<small> --- </small>
+							<button name="deleteBtn" type="submit">Delete Room</button>
+						</form>
+					{% else %}
+						<li><em>I haven't created any room so far.</em>
+					{% endfor %}
+				</ul>
+		{% else %}
+			<p>You have to log in as a customer before requesting any event</p>>
+		{% endif %}
+	</body>
+</html>

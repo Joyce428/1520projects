@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Login</title>
+	</head>
+	<body>
+		{% if error %}<div class="error"><strong>Error:</strong> {{ error }}</div>{% endif %}
+		{% if 'user_id' in session %}
+			<p>Hello World</p>
+		{% else %}
+			<br />
+			<form action="" method="post">
+				Username:  <input type="text" name="username" />
+				<br />
+				Password:  <input type="password" name="password" />
+				<br />
+				<input type="submit" value="Log In" />
+			</form>
+		{% endif %}
+	</body>
+</html>
